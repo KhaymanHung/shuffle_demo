@@ -61,7 +61,16 @@
             "id" : 1,
             "type": 2,
             "rate": 125,
-            "rule": "[{\"number\":3,\"freespin\":10},{\"number\":4,\"freespin\":15},{\"number\":5,\"freespin\":20},{\"number\":6,\"freespin\":25}]"
+            "rule": {
+                "base":{
+                    "number": 3,
+                    "freespin": 10
+                },
+                "add":{
+                    "number": 1,
+                    "freespin": 5
+                }
+            }
         }
 
     ]
