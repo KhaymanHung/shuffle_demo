@@ -1,0 +1,68 @@
+{
+    "board": [
+        {
+            "level" : 1,
+            "x": 4,
+            "y": 4
+        },
+        {
+            "level" : 2,
+            "x": 5,
+            "y": 5
+        },
+        {
+            "level" : 3,
+            "x": 6,
+            "y": 6
+        }
+    ],
+    "square": [
+        {
+            "id": 0,
+            "odds": 0.5,
+            "rate": 125
+        },
+        {
+            "id": 1,
+            "odds": 1,
+            "rate": 125
+        },
+        {
+            "aid": 3,
+            "id": 2,
+            "odds": 1.5,
+            "rate": 125
+        },
+        {
+            "id": 3,
+            "odds": 2.5,
+            "rate": 125
+        },
+        {
+            "id": 4,
+            "odds": 5,
+            "rate": 125
+        }
+    ],
+    "slime": [
+        {
+            "id" : 0,
+            "rate": 125
+        }
+    ],
+    "scatter": [
+        {
+            "id" : 0,
+            "type": 1,
+            "rate": 125,
+            "rule": ""
+        },
+        {
+            "id" : 1,
+            "type": 2,
+            "rate": 125,
+            "rule": "[{\"number\":3,\"freespin\":10},{\"number\":4,\"freespin\":15},{\"number\":5,\"freespin\":20},{\"number\":6,\"freespin\":25}]"
+        }
+
+    ]
+}
