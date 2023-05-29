@@ -3,12 +3,28 @@ const board_level = 1;
 
 // 列出方塊與方塊類型列表
 let typeList = [];
+let oddsList = [];
+let squareList = [];
 g_data.square.forEach(element => {
     typeList[element.id] = element.type;
+    oddsList[element.id] = element.odds;
+    if (element.type === 0) {
+        squareList.push(element.id);
+    }
 });
 
-// console.log("typeList :");
-// console.log(typeList);
+// 將普通方塊id依照分數高低排列
+for (let i = 0; i < squareList.length; i++) {
+    for (let k = i + 1; k < squareList.length; k++) {
+        if (oddsList[squareList[i]] < oddsList[squareList[k]]) {
+            let temp = squareList[i];
+            squareList[i] = squareList[k];
+            squareList[k] = temp;
+        }
+    }
+}
+
+let setCancelCount = g_data.setup.cancel;
 
 main = function() {
     // 取得現在階級盤面大小
@@ -37,14 +53,16 @@ main = function() {
         }
     }
 
+    // board = [ [ 1, 6, 6, 1 ], [ 2, 2, 2, 2 ], [ 3, 3, 7, 3 ], [4, 4, 4, 4 ] ];
+
     let result = _play(board);
 
     if (result.length != 0) {
         result.forEach(element => {
-            console.log("result id :");
-            console.log(element.id);
+            console.log("result id : " + element.id);
             console.log("result coordinate :");
             console.log(element.coordinate);
+            console.log("result odds : " + element.odds);
         });
     }
 }
@@ -85,6 +103,7 @@ _play = function(board) {
                         res.id = saveId;
                         res.coordinate = [];
                         res.coordinate.push(cancelItem);
+                        res.odds = oddsList[res.id];
                         result.push(res);
                     } else {
                         result.forEach(element => {
@@ -120,14 +139,17 @@ _play = function(board) {
         }
         res.coordinate = freespinCoordinate;
         result.push(res);
+        res.odds = oddsList[res.id];
     }
 
     // 判斷普通方塊消除，根據ID從高分到低分來判斷，以免百搭方堆在多個選擇時被用在低分方塊上
-    for (let checkId = 5; checkId >= 1; checkId--) {
+    squareList.forEach(element => {
+        let checkId = element;
         for (let i = 0; i < boardX; i++) {
             for (let k = 0; k < boardY; k++) {
                 let tempCancel = JSON.parse(JSON.stringify(cancelBoard));
                 
+                // 如果不是checkid或百搭的話則跳過
                 if (tempCancel[i][k] == checkId || typeList[tempCancel[i][k]] === 1) {
                     let cancelList = [];
                     tempCancel[i][k] = 0;
@@ -147,10 +169,49 @@ _play = function(board) {
                         cancelItem.y = k;
                         cancelList.push(cancelItem);
                         // console.log("[" + nextX + "][" + k + "]id相同，消除數量累計為" + cancelList.length);
-        
+
                         // 有相同時，往下判斷
                         let nextY = k + 1;
                         while (nextY < boardY &&
+                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
+                            tempCancel[nextX][nextY] = 0;
+                            let cancelItem = {}
+                            cancelItem.x = nextX;
+                            cancelItem.y = nextY;
+                            cancelList.push(cancelItem);
+                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
+        
+                            // 有相同時，往左判斷
+                            let tx = nextX - 1;
+                            while (tx >= 0 &&
+                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
+                                tempCancel[tx][nextY] = 0;
+                                let cancelItem = {}
+                                cancelItem.x = tx;
+                                cancelItem.y = nextY;
+                                cancelList.push(cancelItem);
+                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
+                                tx++;
+                            }
+        
+                            // 有相同時，往右判斷
+                            tx = nextX + 1;
+                            while (tx < boardX &&
+                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
+                                tempCancel[tx][nextY] = 0;
+                                let cancelItem = {}
+                                cancelItem.x = tx;
+                                cancelItem.y = nextY;
+                                cancelList.push(cancelItem);
+                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
+                                tx++;
+                            }
+                            nextY++;
+                        }
+
+                        // 有相同時，往上判斷
+                        nextY = k - 1;
+                        while (nextY >= 0 &&
                             (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
                             tempCancel[nextX][nextY] = 0;
                             let cancelItem = {}
@@ -238,16 +299,56 @@ _play = function(board) {
                             }
                             nextX++
                         }
+
+                        // 有相同時，往左判斷
+                        nextX = i - 1;
+                        while (nextX >= 0 &&
+                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
+                            tempCancel[nextX][nextY] = 0;
+                            let cancelItem = {}
+                            cancelItem.x = nextX;
+                            cancelItem.y = nextY;
+                            cancelList.push(cancelItem);
+                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
+        
+                            // 有相同時，往上判斷
+                            let ty = nextY - 1;
+                            while (ty >= 0 &&
+                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
+                                tempCancel[nextX][ty] = 0;
+                                let cancelItem = {}
+                                cancelItem.x = nextX;
+                                cancelItem.y = ty;
+                                cancelList.push(cancelItem);
+                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
+                                ty++;
+                            }
+        
+                            // 有相同時，往下判斷
+                            ty = nextY + 1;
+                            while (ty < boardY &&
+                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
+                                tempCancel[nextX][ty] = 0;
+                                let cancelItem = {}
+                                cancelItem.x = nextX;
+                                cancelItem.y = ty;
+                                cancelList.push(cancelItem);
+                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
+                                ty++;
+                            }
+                            nextX++
+                        }
                         nextY++;
                     }
         
                     // 相鄰相同方塊連續數字大於4時，消除
-                    if (cancelList.length > 3) {
+                    if (cancelList.length >= setCancelCount) {
                         // console.log("消除數量為" + cancelList.length + "，連續相同方塊大於4，予以消除");
                         cancelBoard = JSON.parse(JSON.stringify(tempCancel));
                         let res = {};
                         res.id = checkId;
                         res.coordinate = cancelList;
+                        res.odds = oddsList[res.id];
                         result.push(res);
                     } else {
                         // console.log("消除數量為" + cancelList.length + "，連續相同方塊未達4塊");              
@@ -255,7 +356,7 @@ _play = function(board) {
                 }
             }
         }
-    }
+    });
 
     console.log("方塊消除後盤面 :");
     console.log(cancelBoard);

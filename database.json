@@ -1,4 +1,7 @@
 {
+    "setup": {
+        "cancel": 4
+    },
     "board": [
         {
             "level" : 1,
