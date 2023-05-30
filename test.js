@@ -55,6 +55,7 @@ main = function() {
 
     // board = [ [ 1, 6, 6, 1 ], [ 2, 2, 2, 2 ], [ 3, 3, 7, 3 ], [ 4, 4, 4, 4 ] ];
     // board = [ [ 4, 6, 6, 6 ], [ 1, 1, 7, 6 ], [ 5, 8, 6, 7 ], [ 8, 7, 6, 6 ] ];
+    // board = [ [ 4, 3, 6, 2 ], [ 7, 7, 7, 2 ], [ 5, 8, 3, 6 ], [ 8, 1, 2, 6 ] ];
 
     let result = _play(board);
 
@@ -159,189 +160,10 @@ _play = function(board) {
                     cancelItem.y = k;
                     cancelList.push(cancelItem);
                     // console.log("判斷起始[" + i + "][" + k + "]id為" + checkId);
-        
-                    // 先往右判斷
-                    let nextX = i + 1;
-                    while (nextX < boardX &&
-                        (tempCancel[nextX][k] === checkId || typeList[tempCancel[nextX][k]] === 1)) {
-                        tempCancel[nextX][k] = 0;
-                        let cancelItem = {}
-                        cancelItem.x = nextX;
-                        cancelItem.y = k;
-                        cancelList.push(cancelItem);
-                        // console.log("[" + nextX + "][" + k + "]id相同，消除數量累計為" + cancelList.length);
+                    
+                    // 判斷座標周圍的圖騰的是否為checkID或百搭圖騰
+                    _checkFullDirect(tempCancel, i, k, checkId, cancelList);
 
-                        // 有相同時，往下判斷
-                        let nextY = k + 1;
-                        while (nextY < boardY &&
-                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
-                            tempCancel[nextX][nextY] = 0;
-                            let cancelItem = {}
-                            cancelItem.x = nextX;
-                            cancelItem.y = nextY;
-                            cancelList.push(cancelItem);
-                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-        
-                            // 有相同時，往左判斷
-                            let tx = nextX - 1;
-                            while (tx >= 0 &&
-                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
-                                tempCancel[tx][nextY] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = tx;
-                                cancelItem.y = nextY;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-                                tx++;
-                            }
-        
-                            // 有相同時，往右判斷
-                            tx = nextX + 1;
-                            while (tx < boardX &&
-                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
-                                tempCancel[tx][nextY] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = tx;
-                                cancelItem.y = nextY;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-                                tx++;
-                            }
-                            nextY++;
-                        }
-
-                        // 有相同時，往上判斷
-                        nextY = k - 1;
-                        while (nextY >= 0 &&
-                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
-                            tempCancel[nextX][nextY] = 0;
-                            let cancelItem = {}
-                            cancelItem.x = nextX;
-                            cancelItem.y = nextY;
-                            cancelList.push(cancelItem);
-                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-        
-                            // 有相同時，往左判斷
-                            let tx = nextX - 1;
-                            while (tx >= 0 &&
-                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
-                                tempCancel[tx][nextY] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = tx;
-                                cancelItem.y = nextY;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-                                tx++;
-                            }
-        
-                            // 有相同時，往右判斷
-                            tx = nextX + 1;
-                            while (tx < boardX &&
-                                (tempCancel[tx][nextY] === checkId || typeList[tempCancel[tx][nextY]] === 1)) {
-                                tempCancel[tx][nextY] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = tx;
-                                cancelItem.y = nextY;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + tx + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-                                tx++;
-                            }
-                            nextY++;
-                        }
-                        nextX++;
-                    }
-        
-                    // 之後往下判斷
-                    let nextY = k + 1;
-                    while (nextY < boardY &&
-                        (tempCancel[i][nextY] === checkId || typeList[tempCancel[i][nextY]] === 1)) {
-                        tempCancel[i][nextY] = 0;
-                        let cancelItem = {}
-                        cancelItem.x = i;
-                        cancelItem.y = nextY;
-                        cancelList.push(cancelItem);
-                        // console.log("[" + i + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-        
-                        // 有相同時，往右判斷
-                        let nextX = i + 1;
-                        while (nextX < boardX &&
-                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
-                            tempCancel[nextX][nextY] = 0;
-                            let cancelItem = {}
-                            cancelItem.x = nextX;
-                            cancelItem.y = nextY;
-                            cancelList.push(cancelItem);
-                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-        
-                            // 有相同時，往上判斷
-                            let ty = nextY - 1;
-                            while (ty >= 0 &&
-                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
-                                tempCancel[nextX][ty] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = nextX;
-                                cancelItem.y = ty;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
-                                ty++;
-                            }
-        
-                            // 有相同時，往下判斷
-                            ty = nextY + 1;
-                            while (ty < boardY &&
-                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
-                                tempCancel[nextX][ty] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = nextX;
-                                cancelItem.y = ty;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
-                                ty++;
-                            }
-                            nextX++
-                        }
-
-                        // 有相同時，往左判斷
-                        nextX = i - 1;
-                        while (nextX >= 0 &&
-                            (tempCancel[nextX][nextY] === checkId || typeList[tempCancel[nextX][nextY]] === 1)) {
-                            tempCancel[nextX][nextY] = 0;
-                            let cancelItem = {}
-                            cancelItem.x = nextX;
-                            cancelItem.y = nextY;
-                            cancelList.push(cancelItem);
-                            // console.log("[" + nextX + "][" + nextY + "]id相同，消除數量累計為" + cancelList.length);
-        
-                            // 有相同時，往上判斷
-                            let ty = nextY - 1;
-                            while (ty >= 0 &&
-                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
-                                tempCancel[nextX][ty] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = nextX;
-                                cancelItem.y = ty;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
-                                ty++;
-                            }
-        
-                            // 有相同時，往下判斷
-                            ty = nextY + 1;
-                            while (ty < boardY &&
-                                (tempCancel[nextX][ty] === checkId || typeList[tempCancel[nextX][ty]] === 1)) {
-                                tempCancel[nextX][ty] = 0;
-                                let cancelItem = {}
-                                cancelItem.x = nextX;
-                                cancelItem.y = ty;
-                                cancelList.push(cancelItem);
-                                // console.log("[" + nextX + "][" + ty + "]id相同，消除數量累計為" + cancelList.length);
-                                ty++;
-                            }
-                            nextX++
-                        }
-                        nextY++;
-                    }
-        
                     // 相鄰相同方塊連續數字大於4時，消除
                     if (cancelList.length >= setCancelCount) {
                         // console.log("消除數量為" + cancelList.length + "，連續相同方塊大於4，予以消除");
@@ -363,6 +185,51 @@ _play = function(board) {
     console.log(cancelBoard);
     
     return result;
+}
+
+_checkFullDirect = function(board, x, y, id, list) {
+    //  檢查右方是否為同樣id或百搭圖騰
+    if (x + 1 < board.length && (board[x + 1][y] === id || typeList[board[x + 1][y]] === 1)) {
+        board[x + 1][y] = 0;
+        let res = {};
+        res.x = x + 1;
+        res.y = y;
+        list.push(res);
+        // console.log(res);
+        _checkFullDirect(board, x + 1, y, id, list);
+    }
+
+    //  檢查下方是否為同樣id或百搭圖騰
+    if (y + 1 < board[x].length && (board[x][y + 1] === id || typeList[board[x][y + 1]] === 1)) {
+        board[x][y + 1] = 0;
+        let res = {};
+        res.x = x;
+        res.y = y + 1;
+        list.push(res);
+        // console.log(res);
+        _checkFullDirect(board, x, y + 1, id, list);
+    }
+
+    //  檢查左方是否為同樣id或百搭圖騰
+    if (x - 1 >= 0 && (board[x - 1][y] === id || typeList[board[x - 1][y]] === 1)) {
+        board[x - 1][y] = 0;
+        let res = {};
+        res.x = x - 1;
+        res.y = y;
+        list.push(res);
+        // console.log(res);
+        _checkFullDirect(board, x - 1, y, id, list);
+    }
+    //  檢查上方是否為同樣id或百搭圖騰
+    if (y - 1 >= 0 && (board[x][y - 1] === id || typeList[board[x][y - 1]] === 1)) {
+        board[x][y - 1] = 0;
+        let res = {};
+        res.x = x;
+        res.y = y - 1;
+        list.push(res);
+        // console.log(res);
+        _checkFullDirect(board, x, y - 1, id, list);
+    }
 }
 
 main();
