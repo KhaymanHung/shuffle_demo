@@ -1,89 +1,18 @@
 {
-    "setup": {
-        "cancel": 4
-    },
+    "setup": {"cancel": 4},
     "board": [
-        {
-            "level" : 1,
-            "x": 4,
-            "y": 4
-        },
-        {
-            "level" : 2,
-            "x": 5,
-            "y": 5
-        },
-        {
-            "level" : 3,
-            "x": 6,
-            "y": 6
-        }
+        {"level" : 1, "x": 4, "y": 4},
+        {"level" : 2, "x": 5, "y": 5},
+        {"level" : 3, "x": 6, "y": 6}
     ],
     "square": [
-        {
-            "id": 1,
-            "odds": 0.5,
-            "rate": 1,
-            "type": 0,
-            "rule": ""
-        },
-        {
-            "id": 2,
-            "odds": 1,
-            "rate": 1,
-            "type": 0,
-            "rule": ""
-        },
-        {
-            "id": 3,
-            "odds": 1.5,
-            "rate": 1,
-            "type": 0,
-            "rule": ""
-        },
-        {
-            "id": 4,
-            "odds": 2.5,
-            "rate": 1,
-            "type": 0,
-            "rule": ""
-        },
-        {
-            "id": 5,
-            "odds": 5,
-            "rate": 1,
-            "type": 0,
-            "rule": ""
-        },
-        {
-            "id": 6,
-            "odds": 0,
-            "rate": 1,
-            "type": 1,
-            "rule": ""
-        },
-        {
-            "id" : 7,
-            "odds": 0,
-            "rate": 1,
-            "type": 2,
-            "rule": ""
-        },
-        {
-            "id" : 8,
-            "odds": 0,
-            "rate": 1,
-            "type": 3,
-            "rule": {
-                "base":{
-                    "number": 3,
-                    "freespin": 10
-                },
-                "add":{
-                    "number": 1,
-                    "freespin": 5
-                }
-            }
-        }
+        {"id": 1, "odds": 0.5, "rate": 1, "type": 0, "rule": ""},
+        {"id": 2, "odds": 1, "rate": 1, "type": 0, "rule": ""},
+        {"id": 3, "odds": 1.5, "rate": 1, "type": 0, "rule": ""},
+        {"id": 4, "odds": 2.5, "rate": 1, "type": 0, "rule": ""},
+        {"id": 5, "odds": 5, "rate": 1, "type": 0, "rule": ""},
+        {"id": 6, "odds": 0, "rate": 1, "type": 1, "rule": ""},
+        {"id": 7, "odds": 0, "rate": 1, "type": 2, "rule": [15, 15, 15]},
+        {"id": 8, "odds": 0, "rate": 1, "type": 3, "rule": {"base":{"number": 3, "freespin": 10}, "add":{"number": 1, "freespin": 5}}}
     ]
 }
