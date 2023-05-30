@@ -53,7 +53,8 @@ main = function() {
         }
     }
 
-    // board = [ [ 1, 6, 6, 1 ], [ 2, 2, 2, 2 ], [ 3, 3, 7, 3 ], [4, 4, 4, 4 ] ];
+    // board = [ [ 1, 6, 6, 1 ], [ 2, 2, 2, 2 ], [ 3, 3, 7, 3 ], [ 4, 4, 4, 4 ] ];
+    // board = [ [ 4, 6, 6, 6 ], [ 1, 1, 7, 6 ], [ 5, 8, 6, 7 ], [ 8, 7, 6, 6 ] ];
 
     let result = _play(board);
 
@@ -149,8 +150,8 @@ _play = function(board) {
             for (let k = 0; k < boardY; k++) {
                 let tempCancel = JSON.parse(JSON.stringify(cancelBoard));
                 
-                // 如果不是checkid或百搭的話則跳過
-                if (tempCancel[i][k] == checkId || typeList[tempCancel[i][k]] === 1) {
+                // 如果不是checkid則跳過
+                if (tempCancel[i][k] == checkId) {
                     let cancelList = [];
                     tempCancel[i][k] = 0;
                     let cancelItem = {}
